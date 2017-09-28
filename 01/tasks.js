@@ -70,7 +70,7 @@ function fibonacciWithCache(x) {
  * @return {string} отформатированное значение
  */
 function formatNumber(num) {
-  if (!Math.floor(num / 10)) {
+  if (num < 10) {
     return ' ' + num;
   }
   return num.toString();
@@ -98,7 +98,7 @@ function printNumbers(max, cols) {
 
   for (let curRow = 0; curRow < rows; ++curRow) {
     let curNum = curRow;
-    const curCols = lastLineLength * (curRow === rows - 1) || cols;
+    const curCols = (curRow === rows - 1) ? lastLineLength : cols;
 
     for (let curCol = 0; curCol < curCols; ++curCol) {
       if (curCol) {
@@ -107,7 +107,7 @@ function printNumbers(max, cols) {
         ansStr += '\n';
       }
       ansStr += formatNumber(curNum);
-      curNum += rows - 1 * (curCol >= lastLineLength);
+      curNum += (curCol >= lastLineLength) ? rows - 1 : rows;
     }
   }
   console.log(ansStr);
