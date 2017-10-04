@@ -3,15 +3,17 @@
  * Доп. задание: предложите несколько вариантов решения.
  */
 function timer(logger = console.log) {
-  function makeLogAndTouchNext(i) {
+  function makeLogAndTouchNext() {
+    logger(this);
+  }
+
+  for (var i = 0; i < 10; i++) {
+    let bindedFunc = makeLogAndTouchNext.bind(i);
+
     setTimeout(() => {
-      logger(i);
-      if (i <= 8) {
-        makeLogAndTouchNext(i + 1);
-      }
+      bindedFunc();
     }, 100);
   }
-  makeLogAndTouchNext(0);
 }
 
 /*= ============================================ */
@@ -41,12 +43,10 @@ function customBind(func, context, ...args) {
  * sum :: void -> Number
  */
 function sum(x) {
-  let cur = 0;
+  let cur = x;
 
-  if (x) {
-    cur += x;
-  } else {
-    return cur;
+  if (!x && x !== 0) {
+    return 0;
   }
   /**
    * Возвращает сумму или функцию, вычисляющую сумму.
@@ -74,8 +74,8 @@ function sum(x) {
 function anagram(first, second) {
   // Насколько я знаю, объекты в js работают примерно как хеш таблицы,
   // поэтому такая проверка будет быстрее, чем отсортить и сравнить.
-  let counterFirst = {};
-  let counterSecond = {};
+  const counterFirst = {};
+  const counterSecond = {};
 
   for (let letter of first) {
     counterFirst[letter] = counterFirst[letter] || 0;
@@ -85,11 +85,12 @@ function anagram(first, second) {
     counterSecond[letter] = counterSecond[letter] || 0;
     counterSecond[letter] += 1;
   }
-  // Если один пустой, то какой смысл по нему идти. Если же оба пустые, то алгоритм выдаст true.
-  const keyArr = Object.keys(counterFirst).length ? Object.keys(counterFirst) :
-    Object.keys(counterSecond);
+  const keysInFirstCounter = Object.keys(counterFirst);
 
-  for (let letter of keyArr) {
+  if (keysInFirstCounter.length !== Object.keys(counterSecond).length) {
+    return false;
+  }
+  for (let letter of keysInFirstCounter) {
     if (counterFirst[letter] !== counterSecond[letter]) {
       return false;
     }
@@ -115,15 +116,14 @@ function comparator(a, b) {
  * @return {Array<number>} массив уникальных значений, отсортированный по возрастанию
  */
 function getUnique(arr) {
-  let counter = new Array(1000);
+  let counter = {};
   let ans = [];
 
   for (let num of arr) {
     if (!counter[num]) {
-      counter[num] = 0;
+      counter[num] = true;
       ans.push(num);
     }
-    counter[num] += 1;
   }
   return ans.sort(comparator);
 }
@@ -176,6 +176,9 @@ function isIsomorphic(left, right) {
   let counter = 0;
   const length = Math.min(left.length, right.length);
 
+  if (Math.abs(left.length - right.length) > 1) {
+    return false;
+  }
   // Даем запас на 1 символ, в случае, если строки идентичны,
   // но одна из них имеет один доп символ.
   for (let i = 0; i <= length; ++i) {

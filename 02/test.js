@@ -71,6 +71,7 @@ describe('Lesson 2', () => {
   describe('sum', () => {
     it('should compute sum', () => {
       expect(sum()).to.be(0);
+      expect(sum(0)(1)(0)(2)()).to.be(3);
       expect(sum(1)()).to.be(1);
       expect(sum(1)(2)(4)(5)()).to.be(12);
     });
@@ -81,6 +82,7 @@ describe('Lesson 2', () => {
       expect(anagram('просветитель', 'терпеливость')).to.be.ok();
       expect(anagram('первый', 'терпеливость')).not.to.be.ok();
       expect(anagram('', 'первый')).not.to.be.ok();
+      expect(anagram('abc', 'abcd')).not.to.be.ok();
     });
   });
 
@@ -104,6 +106,7 @@ describe('Lesson 2', () => {
       expect(isIsomorphic('hold', 'hell')).not.to.be.ok();
       expect(isIsomorphic('help', 'hell yeah')).not.to.be.ok();
       expect(isIsomorphic('helpp', 'help')).to.be.ok();
+      expect(isIsomorphic('abc', 'abcdefgh')).not.to.be.ok();
     });
   });
 });
