@@ -11,7 +11,7 @@ describe('Lesson 2', () => {
       setTimeout(() => {
         expect(result).to.eql(new Array(10).fill(10).map((_, i)=> i));
         done();
-      }, 1000);
+      }, 1050);
     });
   });
 
@@ -49,13 +49,30 @@ describe('Lesson 2', () => {
       expect(lastContext).to.be(context);
       expect(lastParams).to.eql(['hello', 'work', 777]);
     });
+
+    it('should bind arguments and context - 3', () => {
+      let lastContext = null;
+      let lastParams = null;
+      const context = {};
+
+      function call(...params) {
+        lastContext = this;
+        lastParams = params;
+      }
+
+      let bindedFunc = customBind(call, context, 'hello', 'work');
+
+      bindedFunc(777, 'tyu', false);
+      expect(lastContext).to.be(context);
+      expect(lastParams).to.eql(['hello', 'work', 777, 'tyu', false]);
+    });
   });
 
   describe('sum', () => {
     it('should compute sum', () => {
-      expect(sum(1)(2)(4)(5)()).to.be(12);
-      expect(sum(1)()).to.be(1);
       expect(sum()).to.be(0);
+      expect(sum(1)()).to.be(1);
+      expect(sum(1)(2)(4)(5)()).to.be(12);
     });
   });
 
@@ -63,6 +80,7 @@ describe('Lesson 2', () => {
     it('should check are words anagrams of each other', () => {
       expect(anagram('просветитель', 'терпеливость')).to.be.ok();
       expect(anagram('первый', 'терпеливость')).not.to.be.ok();
+      expect(anagram('', 'первый')).not.to.be.ok();
     });
   });
 
@@ -85,6 +103,7 @@ describe('Lesson 2', () => {
       expect(isIsomorphic('help', 'hell')).to.be.ok();
       expect(isIsomorphic('hold', 'hell')).not.to.be.ok();
       expect(isIsomorphic('help', 'hell yeah')).not.to.be.ok();
+      expect(isIsomorphic('helpp', 'help')).to.be.ok();
     });
   });
 });
