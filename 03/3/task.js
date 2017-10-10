@@ -10,9 +10,11 @@ function promiseAll(promises) {
 
   // Начинаем с уже ресолвнутого промиса, присваивая на каждом шаге промис,
   // который будет вернут при ресолве. 
-  const myPromise = promises.reduce(function(summed, current) {
-    return summed.then(
-      value => { return current; }
+  let myPromise = Promise.resolve('someValue');
+
+  for (let promise of promises) {
+    myPromise = myPromise.then(
+      value => { return promise; }
     ).then(
       value => { resolveValues.push(value); }
       // Если был совершен реджект, то наш промис останется с тем же реджектом,
@@ -22,7 +24,7 @@ function promiseAll(promises) {
       // "Когда промис переходит в состояние «выполнен» – с результатом (resolve)
       // или ошибкой (reject) – это навсегда."
     );
-  }, Promise.resolve('someValue'));
+  }
 
   // Если мы не реджектнули myPromise в цикле, то вернем промис,
   // возвращающий массив при ресолве. 

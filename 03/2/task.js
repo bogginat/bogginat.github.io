@@ -12,10 +12,7 @@ function rejectOnTimeout(promise, timeoutInMilliseconds) {
     setTimeout(() => {
       reject('timeout_error');
     }, timeoutInMilliseconds);
-    promise.then(
-      value => { resolve(value); },
-      errValue => { reject(errValue); }
-    );
+    promise.then(resolve, reject);
   });
 
   return myPromise;
