@@ -6,6 +6,8 @@ describe('Lesson 3 - task 1', () => {
     const values = ['hello', 'javascript', 'world'];
     const instances = values.map(str => new NumberAndString(str));
 
+    expect(instances).to.eql(values.map(function(value) {return {string: value}}));
+
     const resultConcatenation = instances.join(' ');
     const resultCharCount = instances.reduce((obj, memo) => memo + obj, 0);
 
