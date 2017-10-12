@@ -10,6 +10,30 @@
 // Я очень хотела сделать это функцией, то так и не поняла как
 // и как заставить эту функцию корректно работать, поэтому сделала
 // без функции.
+
+/*
+ * @param {string} str
+ * @return {number} num
+ */
+function getArabicNumber(str) {
+  let curPos = 0;
+  let finalValue = 0;
+
+  while (curPos < str.length) {
+    for (const key in numsConvert) {
+      const numLength = key.length;
+
+      if (str.substr(curPos, numLength) === key) {
+        finalValue += numsConvert[key];
+        curPos += numLength;
+        break;
+      }
+    }
+  }
+
+  return finalValue;
+}
+
 const numsConvert = {
   M: 1000,
   CM: 900,
@@ -35,19 +59,7 @@ const myProxy = new Proxy(myProto,
       if (prop in numsConvert) {
         finalValue = numsConvert[prop];
       } else if (prop[0] in numsConvert) {
-        let curPos = 0;
-
-        while (curPos < prop.length) {
-          for (const key in numsConvert) {
-            const numLength = key.length;
-
-            if (prop.substr(curPos, numLength) === key) {
-              finalValue += numsConvert[key];
-              curPos += numLength;
-              break;
-            }
-          }
-        }
+        finalValue = getArabicNumber(prop);
       }
       for (let i = 0; i < finalValue; ++i) {
         ansArr.push(i);
