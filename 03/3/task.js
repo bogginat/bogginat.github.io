@@ -14,7 +14,7 @@ function promiseAll(promises) {
 
   for (let promise of promises) {
     myPromise = myPromise.then(
-      value => { return promise; }
+      () => promise
     ).then(
       value => { resolveValues.push(value); }
       // Если был совершен реджект, то наш промис останется с тем же реджектом,
@@ -29,7 +29,7 @@ function promiseAll(promises) {
   // Если мы не реджектнули myPromise в цикле, то вернем промис,
   // возвращающий массив при ресолве. 
   return myPromise.then(
-    value => { return resolveValues; }
+    () => resolveValues
   );
 }
 
