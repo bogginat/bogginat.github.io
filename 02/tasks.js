@@ -4,7 +4,7 @@
  */
 function timer(logger = console.log) {
   function makeLogAndTouchNext() {
-    logger(this);
+    logger(Number(this));
   }
 
   for (var i = 0; i < 10; i++) {
